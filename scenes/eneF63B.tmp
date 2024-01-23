@@ -3,9 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://5ippdsi3rrgd" path="res://art/characters/slime.png" id="1_p4sg2"]
 [ext_resource type="Script" path="res://scenes/enemy.gd" id="1_ptngd"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_scm8k"]
-radius = 6.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_80vdt"]
 atlas = ExtResource("1_p4sg2")
 region = Rect2(0, 128, 32, 32)
@@ -130,15 +127,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y2lwp"]
-radius = 47.1699
+radius = 23.4094
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_scm8k"]
+radius = 6.0
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_ptngd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
-scale = Vector2(1.57736, 0.902497)
-shape = SubResource("CircleShape2D_scm8k")
 
 [node name="AnimationEnemy" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3wxj4")
@@ -153,6 +148,10 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_y2lwp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_scm8k")
 
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
