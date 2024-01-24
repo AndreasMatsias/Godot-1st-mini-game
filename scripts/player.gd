@@ -2,11 +2,24 @@ extends CharacterBody2D
 
 const speed = 100
 var current_dir = "none"
+var enemy_inattack_range = false
+var enemy_attack_cooldown = true
+var health = 100
+var player_alive = true
+
+var attack_ip =false #ip = in progress
 
 func _ready():
 	$AnimationPlayer.play("front_idle")
 func _physics_process(delta):
 	player_movement(delta)
+	enemy_attack()
+	attack()
+	if health <= 0:
+		player_alive = false
+		health = 0 
+		print("player has been killed")
+		self.queue_free()
 
 func player_movement(delta):
 	if Input.is_action_pressed("ui_right"):
@@ -43,20 +56,77 @@ func play_anim(movement):
 		if movement == 1:
 			anim.play("side_walk")
 		elif movement == 0:
-			anim.play("side_idle")
+			if !attack_ip:
+				anim.play("side_idle")
 	if dir == "left":
 		anim.flip_h = true
 		if movement == 1:
 			anim.play("side_walk")
 		elif movement == 0:
-			anim.play("side_idle")
+			if !attack_ip:
+				anim.play("side_idle")
 	if dir == "down":
 		if movement == 1:
 			anim.play("front_walk")
 		elif movement == 0:
-			anim.play("front_idle")
+			if !attack_ip:
+				anim.play("front_idle")
 	if dir == "up":
 		if movement == 1:
 			anim.play("back_walk")
 		elif movement == 0:
-			anim.play("back_idle")
+			if !attack_ip:
+				anim.play("back_idle")
+
+
+func _on_player_hitbox_body_entered(body):
+	if body.has_method("enemy"):
+		enemy_inattack_range = true
+		
+
+func _on_player_hitbox_body_exited(body):
+	if body.has_method("enemy"):
+		enemy_inattack_range = false
+
+func player():
+	pass
+	
+func enemy_attack():
+	if enemy_inattack_range and enemy_attack_cooldown:
+		health -= 5
+		enemy_attack_cooldown = false
+		$attack_cooldown.start()
+		print(health)
+
+
+func _on_attack_cooldown_timeout():
+	enemy_attack_cooldown = true
+
+func attack():
+	var dir = current_dir
+	
+	if Input.is_action_just_pressed("attack"):
+		global.player_current_attack = true
+		attack_ip = true
+		if dir == "right":
+			$AnimationPlayer.flip_h = false
+			$AnimationPlayer.play("side_attack")
+			$deal_attack_timer.start()
+		if dir == "left":
+			$AnimationPlayer.flip_h = true
+			$AnimationPlayer.play("side_attack")
+			$deal_attack_timer.start()
+		if dir == "down":
+			$AnimationPlayer.play("front_attack")
+			$deal_attack_timer.start()
+		if dir == "up":
+			$AnimationPlayer.play("back_attack")
+			$deal_attack_timer.start()
+		
+		
+
+
+func _on_deal_attack_timer_timeout():
+	$deal_attack_timer.stop()
+	global.player_current_attack = false
+	attack_ip = false
