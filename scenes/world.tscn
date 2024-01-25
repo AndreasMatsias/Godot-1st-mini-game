@@ -320,7 +320,11 @@ texture_normal = ExtResource("5_esp1e")
 action = "ui_right"
 
 [node name="player" parent="." instance=ExtResource("1_fs6yi")]
-position = Vector2(123, 65)
+position = Vector2(14, 102)
 
 [node name="Enemy" parent="." instance=ExtResource("11_l7sol")]
-position = Vector2(15, 111)
+position = Vector2(142, 186)
+
+[node name="collisions" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collisions"]
