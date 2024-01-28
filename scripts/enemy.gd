@@ -12,6 +12,7 @@ func _ready():
 
 func _physics_process(delta):
 	deal_with_damage()
+	update_health()
 	if player_chase:
 		position +=(player.position - position)/speed
 		$AnimationEnemy.play('walk')
@@ -53,7 +54,7 @@ func deal_with_damage():
 		if can_take_damage:
 			$take_damage_cooldown.start()
 			can_take_damage = false
-			health -=50
+			health -=20
 			print("slime health = ", health)
 			if health <= 0:
 				self.queue_free()
@@ -61,3 +62,6 @@ func deal_with_damage():
 
 func _on_take_damage_cooldown_timeout():
 	can_take_damage = true
+
+func update_health():
+	$enemy_health.value = health

@@ -16,6 +16,7 @@ func _physics_process(delta):
 	enemy_attack()
 	attack()
 	current_camera()
+	update_health()
 	if health <= 0:
 		player_alive = false
 		health = 0 
@@ -94,7 +95,7 @@ func player():
 	
 func enemy_attack():
 	if enemy_inattack_range and enemy_attack_cooldown:
-		health -= 5
+		health -= 10
 		enemy_attack_cooldown = false
 		$attack_cooldown.start()
 		print(health)
@@ -139,3 +140,23 @@ func current_camera():
 	elif global.current_scene == "graveyard":
 		$Camera2D.enabled = false
 		$Camera_graveyard.enabled = true
+
+
+func update_health():
+	$healthbar.value = health
+	#if health >= 100:
+		#$healthbar.visible = false
+	#else:
+		#$healthbar.visible = true
+		
+func _on_regenation_timer_timeout():
+	if health < 100:
+		health += 20
+		if health > 100:
+			health = 100
+	if health <= 0:
+		health = 0
+		
+
+	
+	
