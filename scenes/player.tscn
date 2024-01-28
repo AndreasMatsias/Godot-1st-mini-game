@@ -448,15 +448,32 @@ wait_time = 0.5
 wait_time = 0.5
 
 [node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(-13130.5, -1840.79)
 zoom = Vector2(3.5, 3.5)
 limit_left = 0
 limit_top = 0
 limit_right = 430
-limit_bottom = 223
+limit_bottom = 218
 limit_smoothed = true
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="Camera_graveyard" type="Camera2D" parent="."]
+scale = Vector2(-13130.5, -1840.79)
+zoom = Vector2(3.5, 3.5)
+limit_left = 0
+limit_top = 0
+limit_right = 430
+limit_bottom = 218
+limit_smoothed = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_right = 4.0
+offset_bottom = 27.0
 
 [connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
 [connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
